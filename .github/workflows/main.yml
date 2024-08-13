@@ -18,13 +18,12 @@ jobs:
       run: |
         mkdir -p ~/.ssh
         echo "-----BEGIN OPENSSH PRIVATE KEY-----
-b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
-QyNTUxOQAAACAhdg7fDecpu7eM10k3eaAZDXEIQrxZxt71BJ+BGsCy8wAAAJDnCVqF5wla
-hQAAAAtzc2gtZWQyNTUxOQAAACAhdg7fDecpu7eM10k3eaAZDXEIQrxZxt71BJ+BGsCy8w
-AAAECwB15aYnpfVTjCaZebl8MVyhXXMomVAL2xq6I8Ur+x5iF2Dt8N5ym7t4zXSTd5oBkN
-cQhCvFnG3vUEn4EawLLzAAAABkdUTEFCUwECAwQFBgc=
------END OPENSSH PRIVATE KEY-----
-" > ~/.ssh/id_rsa
+        b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+        QyNTUxOQAAACAhdg7fDecpu7eM10k3eaAZDXEIQrxZxt71BJ+BGsCy8wAAAJDnCVqF5wla
+        hQAAAAtzc2gtZWQyNTUxOQAAACAhdg7fDecpu7eM10k3eaAZDXEIQrxZxt71BJ+BGsCy8w
+        AAAECwB15aYnpfVTjCaZebl8MVyhXXMomVAL2xq6I8Ur+x5iF2Dt8N5ym7t4zXSTd5oBkN
+        cQhCvFnG3vUEn4EawLLzAAAABkdUTEFCUwECAwQFBgc=
+        -----END OPENSSH PRIVATE KEY-----" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H 111.222.333.444 >> ~/.ssh/known_hosts
 
