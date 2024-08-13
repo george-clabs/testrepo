@@ -1,60 +1,27 @@
-# name: SSH Test
+name: SSH Deploy
 
-# on:
-#   push:
-#     branches:
-#       - main
-#   workflow_dispatch:
-
-# jobs:
-#   ssh-test:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#     - name: Checkout code
-#       uses: actions/checkout@v3
-
-#     - name: Set up SSH
-#       run: |
-#         mkdir -p ~/.ssh
-#         echo "-----BEGIN OPENSSH PRIVATE KEY-----
-#         b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
-#         QyNTUxOQAAACAhdg7fDecpu7eM10k3eaAZDXEIQrxZxt71BJ+BGsCy8wAAAJDnCVqF5wla
-#         hQAAAAtzc2gtZWQyNTUxOQAAACAhdg7fDecpu7eM10k3eaAZDXEIQrxZxt71BJ+BGsCy8w
-#         AAAECwB15aYnpfVTjCaZebl8MVyhXXMomVAL2xq6I8Ur+x5iF2Dt8N5ym7t4zXSTd5oBkN
-#         cQhCvFnG3vUEn4EawLLzAAAABkdUTEFCUwECAwQFBgc=
-#         -----END OPENSSH PRIVATE KEY-----" > ~/.ssh/id_rsa
-#         chmod 600 ~/.ssh/id_rsa
-#         ssh-keyscan -H 110.142.157.72 >> ~/.ssh/known_hosts
-
-#     - name: SSH into Server
-#       run: ssh -o StrictHostKeyChecking=no -p 17380 gtlabs@110.142.157.72 "echo 'Connected successfully!'"
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
-  
+
 jobs:
-  run_pull:
-    name: run pull
+  deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: install ssh keys
-      # check this thread to understand why its needed:
-      # https://stackoverflow.com/a/70447517
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Add SSH key
       run: |
-        install -m 600 -D /dev/null ~/.ssh/id_rsa
-        echo "-----BEGIN OPENSSH PRIVATE KEY-----
-        b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
-        QyNTUxOQAAACAhdg7fDecpu7eM10k3eaAZDXEIQrxZxt71BJ+BGsCy8wAAAJDnCVqF5wla
-        hQAAAAtzc2gtZWQyNTUxOQAAACAhdg7fDecpu7eM10k3eaAZDXEIQrxZxt71BJ+BGsCy8w
-        AAAECwB15aYnpfVTjCaZebl8MVyhXXMomVAL2xq6I8Ur+x5iF2Dt8N5ym7t4zXSTd5oBkN
-        cQhCvFnG3vUEn4EawLLzAAAABkdUTEFCUwECAwQFBgc=
-        -----END OPENSSH PRIVATE KEY-----" > ~/.ssh/id_rsa
-        ssh-keyscan -H 110.142.157.72 > ~/.ssh/known_hosts
-    - name: connect and pull
-      run: ssh -o BatchMode=yes -p 17380 gtlabs@110.142.157.72
-    - name: cleanup
-      run: rm -rf ~/.ssh
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+    - name: Run SSH command
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa gtlabs@110.142.157.72 -p 17380 << 'EOF'
+          echo "SSH connection established."
+          # Place your commands here
+        EOF
