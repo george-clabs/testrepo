@@ -12,7 +12,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up SSH
       run: |
@@ -28,4 +28,4 @@ jobs:
         ssh-keyscan -H 110.142.157.72 >> ~/.ssh/known_hosts
 
     - name: SSH into Server
-      run: ssh -o StrictHostKeyChecking=no -p 17380 gtlabs@110.142.157.72 "echo 'Connected successfully!'"
+      run: ssh -o StrictHostKeyChecking=no -p 22 username@110.142.157.72 "echo 'Connected successfully!'"
