@@ -21,7 +21,7 @@ jobs:
 
     - name: Run SSH command
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa gtlabs@${{ secrets.SSH_HOST }} -p 17380 << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_PORT }} << 'EOF'
           echo "SSH connection established."
           # Place your commands here
         EOF
